@@ -13,7 +13,7 @@ public class Configuration
                 //API projesinin tam yolunu yaz
                 "/../../../Prestation/WebAPI.API"));
             configurationManager.AddJsonFile("appsettings.json");
-
+                                                            //appsettings.jsondaki connectionStringsin altındaki parametre
             return configurationManager.GetConnectionString("SqlConnectonName");
         }
     }
