@@ -10,11 +10,9 @@ public class Configuration
         {
             ConfigurationManager configurationManager = new();
             configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(),
-                //API projesinin tam yolunu yaz
-                "/../../../Prestation/WebAPI.API"));
+                "/Users/leventkalkavan/Desktop/Projeler/MovieStore/Presentation/WebAPI"));
             configurationManager.AddJsonFile("appsettings.json");
-                                                            //appsettings.jsondaki connectionStringsin altındaki parametre
-            return configurationManager.GetConnectionString("SqlConnectonName");
+            return configurationManager.GetConnectionString("Mssql");
         }
     }
 }

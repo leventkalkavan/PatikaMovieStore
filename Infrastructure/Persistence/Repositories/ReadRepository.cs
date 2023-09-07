@@ -30,6 +30,6 @@ public class ReadRepository<T>:IReadRepository<T> where T:BaseEntity
         var query = Table.AsNoTracking();
         if (!tracking)
             query = query.AsNoTracking();
-        return await query.FirstOrDefaultAsync(x=>x.Id==Guid.Parse(id));
+        return await query.FirstOrDefaultAsync(x => x.Id == id);
     }
 }
