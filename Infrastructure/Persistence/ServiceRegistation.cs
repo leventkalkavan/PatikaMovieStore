@@ -1,7 +1,9 @@
+using Application.Abstraction.Services;
 using Application.Repositories.Actor;
 using Application.Repositories.Director;
 using Application.Repositories.Movie;
 using Application.Repositories.Order;
+using Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +12,7 @@ using Persistence.Repositories.Actor;
 using Persistence.Repositories.Director;
 using Persistence.Repositories.Movie;
 using Persistence.Repositories.Order;
+using Persistence.Services;
 
 namespace Persistence;
 
@@ -19,6 +22,11 @@ public static class ServiceRegistation
     {
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString));
+        
+        services.AddIdentity<AppUser,AppRole>(options =>
+        {
+            options.User.RequireUniqueEmail = true;
+        }).AddEntityFrameworkStores<ApplicationDbContext>();
         
         services.AddScoped<IActorWriteRepository, ActorWriteRepository>();
         services.AddScoped<IActorReadRepository, ActorReadRepository>();
@@ -31,5 +39,7 @@ public static class ServiceRegistation
         
         services.AddScoped<IOrderReadRepository, OrderReadRepository>();
         services.AddScoped<IOrderWriterRepository, OrderWriteRepository>();
+        
+        services.AddScoped<IUserService, UserService>();
     }
 }

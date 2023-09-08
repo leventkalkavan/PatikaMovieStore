@@ -27,12 +27,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Commands\Director\" />
-      <Folder Include="Features\Commands\Movie\" />
-      <Folder Include="Features\Commands\Order\" />
-      <Folder Include="Features\Queries\Director\" />
-      <Folder Include="Features\Queries\Movie\" />
-      <Folder Include="Features\Queries\Order\" />
+      <Folder Include="Features\Commands\Customer\" />
+      <Folder Include="Features\Queries\Customer\" />
     </ItemGroup>
 
 </Project>

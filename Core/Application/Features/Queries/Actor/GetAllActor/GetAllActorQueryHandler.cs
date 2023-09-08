@@ -28,12 +28,13 @@ public class GetAllActorQueryHandler: IRequestHandler<GetAllActorQueryRequest,Ge
                 Id = actors.Id,
                 Name = actors.Name,
                 Surname = actors.Surname,
-                Movies = actors.Movies.Select(invoice => new MovieDto()
+                Movies = actors.Movies.Select(movie => new MovieDto()
                 {
-                    Id = invoice.Id,
-                    Name = invoice.Name,
-                    Type = invoice.Type,
-                    Year = invoice.Year
+                    Id = movie.Id,
+                    Name = movie.Name,
+                    Type = movie.Type,
+                    Status = movie.Status,
+                    Year = movie.Year
                 }).ToList()
             }).ToList()
         };

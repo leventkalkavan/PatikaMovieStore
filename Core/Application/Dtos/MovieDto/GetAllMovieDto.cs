@@ -1,16 +1,14 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using Domain.Entities.Common;
+using Domain.Entities;
 
-namespace Domain.Entities;
+namespace Application.Dtos.MovieDto;
 
-public class Movie: BaseEntity
+public class GetAllMovieDto
 {
     public string Name { get; set; }
     public int Year { get; set; }
     public string Type { get; set; }
-    [Column(TypeName = "decimal(18, 2)")]
     public decimal Price { get; set; }
     public bool Status { get; set; }
-    public Director Director { get; set; }
+    public Domain.Entities.Director Director { get; set; }
     public List<Actor> Actors { get; set; }
 }
