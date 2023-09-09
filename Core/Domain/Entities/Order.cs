@@ -6,7 +6,7 @@ namespace Domain.Entities;
 
 public class Order: BaseEntity
 {
-    //public AppUser PurchasingCustomer { get; set; }
+    public AppUser PurchasingCustomer { get; set; }
     public Movie PurchasingFilm { get; set; }
     
     [Column(TypeName = "decimal(18, 2)")]

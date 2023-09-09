@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 using Application.Features.Commands.Actor;
 using Application.Features.Commands.Actor.DeleteActor;
 using Application.Features.Commands.Actor.UpdateActor;
+using Application.Features.Commands.AppUser.CreateCustomer;
+using Application.Features.Commands.Customer.AppRole.AssigningRole;
+using Application.Features.Commands.Customer.AppRole.CreateRole;
+using Application.Features.Commands.Customer.AppUser.DeleteCustomer;
 using Application.Features.Commands.Director.CreateDirector;
 using Application.Features.Commands.Director.DeleteDirector;
 using Application.Features.Commands.Director.UpdateDirector;
@@ -103,6 +107,34 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> DeleteMovie([FromRoute]DeleteMovieCommandsRequest deleteMovieCommandsRequest)
         {
             return Ok(await _mediator.Send(deleteMovieCommandsRequest));
+        }
+        
+        //Customer Endpointleri
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(CreateUserCommandRequest createUserCommandRequest)
+        {
+            return Ok(await _mediator.Send(createUserCommandRequest));
+        }
+
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteUser(DeleteUserCommandRequest deleteUserCommandRequest)
+        {
+            return Ok(await _mediator.Send(deleteUserCommandRequest));
+        }
+        
+        //Rol Endpointleri
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRole(AppRoleCommandRequest appRoleCommandRequest)
+        {
+            return Ok(await _mediator.Send(appRoleCommandRequest));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssigningRole(AssingingRoleCommandRequest assingingRoleCommandRequest)
+        {
+            return Ok(await _mediator.Send(assingingRoleCommandRequest));
         }
     }
 }

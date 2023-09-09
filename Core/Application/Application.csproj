@@ -26,9 +26,4 @@
       <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Features\Commands\Customer\" />
-      <Folder Include="Features\Queries\Customer\" />
-    </ItemGroup>
-
 </Project>
