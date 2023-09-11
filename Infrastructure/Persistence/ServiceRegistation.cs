@@ -45,5 +45,6 @@ public static class ServiceRegistation
         
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenHandler, TokenHandler>();
+        
     }
 }

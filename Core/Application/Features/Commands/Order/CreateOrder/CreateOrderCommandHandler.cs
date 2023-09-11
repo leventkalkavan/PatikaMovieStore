@@ -46,7 +46,8 @@ namespace Application.Features.Commands.Order.CreateOrder
             {
                 MovieId = movie.Id,
                 CustomerId = user.Id,
-                Price = movie.Price
+                Price = movie.Price,
+                HiringDateTime = DateTime.Now
             };
 
             await _orderWriteRepository.AddAsync(order);

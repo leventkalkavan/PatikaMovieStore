@@ -2,6 +2,7 @@ using Application.Dtos.ActorDto;
 using Application.Dtos.MovieDto;
 using Application.Repositories.Actor;
 using Application.Repositories.Movie;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +12,11 @@ public class GetAllActorQueryHandler: IRequestHandler<GetAllActorQueryRequest,Ge
 {
     private readonly IActorReadRepository _actorReadRepository;
 
-    public GetAllActorQueryHandler(IActorReadRepository actorReadRepository)
+    IMapper _mapper;
+    public GetAllActorQueryHandler(IActorReadRepository actorReadRepository, IMapper mapper)
     {
         _actorReadRepository = actorReadRepository;
+        _mapper = mapper;
     }
 
     public async Task<GetAllActorQueryResponse> Handle(GetAllActorQueryRequest request, CancellationToken cancellationToken)
@@ -33,7 +36,7 @@ public class GetAllActorQueryHandler: IRequestHandler<GetAllActorQueryRequest,Ge
             Actors = actorDtos
         };
 
-        return response;
+        return _mapper.Map<GetAllActorQueryResponse>(response);
     }
 
 }

@@ -1,3 +1,4 @@
+using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,5 +10,6 @@ public static class ServiceRegistration
     {
         collection.AddMediatR(typeof(ServiceRegistration));
         collection.AddHttpClient();
+        collection.AddAutoMapper(Assembly.GetExecutingAssembly());
     }
 }

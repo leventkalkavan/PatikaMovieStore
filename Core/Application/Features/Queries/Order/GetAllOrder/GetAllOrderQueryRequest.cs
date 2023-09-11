@@ -1,6 +1,8 @@
+using MediatR;
+
 namespace Application.Features.Queries.Order.GetAllOrder;
 
-public class GetAllOrderQueryRequest
+public class GetAllOrderQueryRequest: IRequest<GetAllOrderQueryResponse>
 {
     
 }

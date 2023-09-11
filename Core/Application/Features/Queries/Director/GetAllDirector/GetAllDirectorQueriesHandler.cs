@@ -4,6 +4,7 @@ using Application.Dtos.MovieDto;
 using Application.Features.Queries.Actor.GetAllActor;
 using Application.Repositories.Director;
 using Application.Repositories.Movie;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +13,12 @@ namespace Application.Features.Queries.Director.GetAllDirector;
 public class GetAllDirectorQueriesHandler: IRequestHandler<GetAllDirectorQueriesRequest,GetAllDirectorQueriesResponse>
 {
     private readonly IDirectorReadRepository _directorReadRepository;
-    private readonly IMovieReadRepository _movieReadRepository;
+    private IMapper _mapper;
 
-    public GetAllDirectorQueriesHandler(IDirectorReadRepository directorReadRepository, IMovieReadRepository movieReadRepository)
+    public GetAllDirectorQueriesHandler(IDirectorReadRepository directorReadRepository, IMapper mapper)
     {
         _directorReadRepository = directorReadRepository;
-        _movieReadRepository = movieReadRepository;
+        _mapper = mapper;
     }
 
     public async Task<GetAllDirectorQueriesResponse> Handle(GetAllDirectorQueriesRequest request, CancellationToken cancellationToken)
@@ -42,6 +43,6 @@ public class GetAllDirectorQueriesHandler: IRequestHandler<GetAllDirectorQueries
                 }).ToList()
             }).ToList()
         };
-        return response;
+        return _mapper.Map<GetAllDirectorQueriesResponse>(response);
     }
 }
