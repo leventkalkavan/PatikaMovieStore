@@ -6,5 +6,7 @@ public class Actor: BaseEntity
 {
     public string Name { get; set; }
     public string Surname { get; set; }
-    public List<Movie> Movies { get; set; }
+    public string MovieId { get; set; }
+    
+    public ICollection<Movie> Movies { get; set; }
 }

@@ -18,26 +18,22 @@ public class GetAllActorQueryHandler: IRequestHandler<GetAllActorQueryRequest,Ge
 
     public async Task<GetAllActorQueryResponse> Handle(GetAllActorQueryRequest request, CancellationToken cancellationToken)
     {
-        var actors = _actorReadRepository.Table.Include(h => h.Movies)
-            .ToList();
-       
-        var response = new GetAllActorQueryResponse()
+        var actors = await _actorReadRepository.Table
+            .Include(actor => actor.Movies)
+            .ToListAsync();
+        var actorDtos = actors.Select(actor => new GetAllActorDto
         {
-            Actors = actors.Select(actors => new GetAllActorDto()
-            {
-                Id = actors.Id,
-                Name = actors.Name,
-                Surname = actors.Surname,
-                Movies = actors.Movies.Select(movie => new MovieDto()
-                {
-                    Id = movie.Id,
-                    Name = movie.Name,
-                    Type = movie.Type,
-                    Status = movie.Status,
-                    Year = movie.Year
-                }).ToList()
-            }).ToList()
+            Id = actor.Id,
+            Name = actor.Name,
+            Surname = actor.Surname,
+            MoveId = actor.MovieId
+        }).ToList();
+        var response = new GetAllActorQueryResponse
+        {
+            Actors = actorDtos
         };
+
         return response;
     }
+
 }

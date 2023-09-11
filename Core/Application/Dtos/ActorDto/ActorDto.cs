@@ -1,8 +1,8 @@
 using Domain.Entities;
 
-namespace Application.Dtos.Director;
+namespace Application.Dtos.ActorDto;
 
-public class GetAllDirectorDto
+public class ActorDto
 {
     public string Id { get; set; }
     public string Name { get; set; }

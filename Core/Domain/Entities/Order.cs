@@ -6,10 +6,15 @@ namespace Domain.Entities;
 
 public class Order: BaseEntity
 {
-    public AppUser PurchasingCustomer { get; set; }
-    public Movie PurchasingFilm { get; set; }
+    public string CustomerId { get; set; }
+    
+    public AppUser Customer { get; set; }
+    
+    public string MovieId { get; set; }
+    public Movie Movie { get; set; }
     
     [Column(TypeName = "decimal(18, 2)")]
+    
     public decimal Price { get; set; }
-    public DateTime PurchaseDate { get; set; }
+    public DateTime HiringDateTime { get; set; }
 }

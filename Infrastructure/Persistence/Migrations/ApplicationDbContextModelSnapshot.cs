@@ -43,6 +43,10 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("MovieId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -122,7 +126,6 @@ namespace Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FavoriteFilmType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -130,10 +133,6 @@ namespace Persistence.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -152,11 +151,13 @@ namespace Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("SecurityStamp")
+                    b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Surname")
-                        .IsRequired()
+                    b.Property<DateTime?>("RefreshTokenTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -185,9 +186,6 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("DirectorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -197,7 +195,7 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -211,8 +209,6 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("DirectorId");
 
                     b.ToTable("Movies");
@@ -224,19 +220,25 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<DateTime>("PurchaseDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PurchasingFilmId")
+                    b.Property<string>("CustomerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("HiringDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MovieId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PurchasingFilmId");
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("MovieId");
 
                     b.ToTable("Orders");
                 });
@@ -364,10 +366,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Movie", b =>
                 {
-                    b.HasOne("Domain.Entities.Identity.AppUser", null)
-                        .WithMany("BuyFilms")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Domain.Entities.Director", "Director")
                         .WithMany("Movies")
                         .HasForeignKey("DirectorId")
@@ -379,13 +377,21 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
-                    b.HasOne("Domain.Entities.Movie", "PurchasingFilm")
-                        .WithMany()
-                        .HasForeignKey("PurchasingFilmId")
+                    b.HasOne("Domain.Entities.Identity.AppUser", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PurchasingFilm");
+                    b.HasOne("Domain.Entities.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -446,7 +452,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Identity.AppUser", b =>
                 {
-                    b.Navigation("BuyFilms");
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

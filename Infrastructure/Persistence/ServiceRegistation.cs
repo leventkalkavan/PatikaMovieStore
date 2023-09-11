@@ -1,4 +1,5 @@
 using Application.Abstraction.Services;
+using Application.Abstraction.Token;
 using Application.Repositories.Actor;
 using Application.Repositories.Director;
 using Application.Repositories.Movie;
@@ -38,8 +39,11 @@ public static class ServiceRegistation
         services.AddScoped<IDirectorWriteRepository, DirectorWriteRepository>();
         
         services.AddScoped<IOrderReadRepository, OrderReadRepository>();
-        services.AddScoped<IOrderWriterRepository, OrderWriteRepository>();
+        services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
         
         services.AddScoped<IUserService, UserService>();
+        
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ITokenHandler, TokenHandler>();
     }
 }

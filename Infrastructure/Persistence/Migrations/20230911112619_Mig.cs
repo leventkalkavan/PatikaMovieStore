@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Mig1 : Migration
+    public partial class Mig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,8 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MovieId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,9 +44,9 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FavoriteFilmType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FavoriteFilmType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -195,17 +196,11 @@ namespace Persistence.Migrations
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
-                    DirectorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    DirectorId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Movies_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Movies_Directors_DirectorId",
                         column: x => x.DirectorId,
@@ -243,16 +238,23 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PurchasingFilmId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MovieId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    HiringDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Movies_PurchasingFilmId",
-                        column: x => x.PurchasingFilmId,
+                        name: "FK_Orders_AspNetUsers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Movies_MovieId",
+                        column: x => x.MovieId,
                         principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -303,19 +305,19 @@ namespace Persistence.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movies_AppUserId",
-                table: "Movies",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Movies_DirectorId",
                 table: "Movies",
                 column: "DirectorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_PurchasingFilmId",
+                name: "IX_Orders_CustomerId",
                 table: "Orders",
-                column: "PurchasingFilmId");
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_MovieId",
+                table: "Orders",
+                column: "MovieId");
         }
 
         /// <inheritdoc />
@@ -349,10 +351,10 @@ namespace Persistence.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Movies");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Movies");
 
             migrationBuilder.DropTable(
                 name: "Directors");

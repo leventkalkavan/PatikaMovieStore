@@ -1,4 +1,5 @@
 using Application.Dtos.ActorDto;
+using Application.Dtos.Director;
 using Application.Dtos.MovieDto;
 using Application.Features.Queries.Actor.GetAllActor;
 using Application.Repositories.Director;
@@ -26,7 +27,7 @@ public class GetAllDirectorQueriesHandler: IRequestHandler<GetAllDirectorQueries
        
         var response = new GetAllDirectorQueriesResponse()
         {
-            Directors = directors.Select(directors => new GetAllActorDto()
+            Directors = directors.Select(directors => new GetAllDirectorDto()
             {
                 Id = directors.Id,
                 Name = directors.Name,

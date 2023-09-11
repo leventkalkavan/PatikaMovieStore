@@ -17,24 +17,15 @@ namespace Application.Features.Commands.Movie.CreateMovie
 
         public async Task<CreateMovieCommandResponse> Handle(CreateMovieCommandRequest request, CancellationToken cancellationToken)
         {
-            var director = await _directorWriteRepository.Table.FindAsync(request.DirectorId);
-
-            if (director == null)
-            {
-                return new CreateMovieCommandResponse
-                {
-                    IsSuccess = false
-                };
-            }
             var newMovie = new Domain.Entities.Movie
             {
                 Name = request.Name,
                 Year = request.Year,
                 Type = request.Type,
+                Status = request.Status,
                 Price = request.Price,
-                Director = director
+                DirectorId = request.DirectorId
             };
-
             await _movieWriteRepository.AddAsync(newMovie);
             await _movieWriteRepository.SaveAsync();
 
@@ -43,5 +34,7 @@ namespace Application.Features.Commands.Movie.CreateMovie
                 IsSuccess = true
             };
         }
+
+        
     }
 }

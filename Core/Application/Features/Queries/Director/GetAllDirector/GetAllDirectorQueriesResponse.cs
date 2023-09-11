@@ -5,5 +5,5 @@ namespace Application.Features.Queries.Director.GetAllDirector;
 
 public class GetAllDirectorQueriesResponse
 {
-    public List<GetAllActorDto> Directors { get; set; }
+    public List<GetAllDirectorDto> Directors { get; set; }
 }

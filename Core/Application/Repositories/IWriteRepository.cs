@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Application.Dtos.ActorDto;
 using Domain.Entities.Common;
 
 namespace Application.Repositories;

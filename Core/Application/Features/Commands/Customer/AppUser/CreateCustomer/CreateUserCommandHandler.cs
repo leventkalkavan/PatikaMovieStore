@@ -19,7 +19,8 @@ public class CreateUserCommandHandler: IRequestHandler<CreateUserCommandRequest,
         {
             Username = request.Username,
             Email = request.Email,
-            Password = request.Password
+            Password = request.Password,
+            FavoriteFilmType = request.FavoriteFilmType
         });
         return new CreateUserCommandResponse()
         {

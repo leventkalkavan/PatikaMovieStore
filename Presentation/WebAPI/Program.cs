@@ -1,4 +1,9 @@
+using System.Security.Claims;
+using System.Text;
 using Application;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +15,26 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer("user", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateAudience = true,
+
+        ValidateIssuer = true,
+
+        ValidateLifetime = true,
+
+        ValidateIssuerSigningKey = true,
+
+        ValidAudience = builder.Configuration["Token:Audience"],
+        ValidIssuer = builder.Configuration["Token:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
+        LifetimeValidator = (notBefore, expires, securityToken, validationParameters) =>
+            expires != null ? expires > DateTime.UtcNow : false,
+        NameClaimType = ClaimTypes.Name
+    };
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

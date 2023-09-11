@@ -4,8 +4,8 @@ namespace Domain.Entities.Identity;
 
 public class AppUser: IdentityUser
 {
-    public string Name { get; set; }
-    public string Surname { get; set; }
-    public List<Movie> BuyFilms { get; set; }
-    public string FavoriteFilmType { get; set; }
+    public List<Order> Orders { get; set; } 
+    public string? FavoriteFilmType { get; set; } 
+    public string? RefreshToken { get; set; }
+    public DateTime? RefreshTokenTime { get; set; }
 }
