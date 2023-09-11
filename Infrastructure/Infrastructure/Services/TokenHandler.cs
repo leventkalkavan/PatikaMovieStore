@@ -8,7 +8,7 @@ using Domain.Entities.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Persistence.Services;
+namespace Infrastructure.Services;
 
 public class TokenHandler: ITokenHandler
 {

@@ -1,10 +1,12 @@
 using Application.Abstraction.Services;
 using Application.Abstraction.Token;
+using Application.Features.Commands.Actor.CreateActor;
 using Application.Repositories.Actor;
 using Application.Repositories.Director;
 using Application.Repositories.Movie;
 using Application.Repositories.Order;
 using Domain.Entities.Identity;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,7 +46,6 @@ public static class ServiceRegistation
         services.AddScoped<IUserService, UserService>();
         
         services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<ITokenHandler, TokenHandler>();
         
     }
 }

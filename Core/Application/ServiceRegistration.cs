@@ -1,4 +1,5 @@
 using System.Reflection;
+using Application.Features.Commands.Actor.CreateActor;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
