@@ -1,3 +1,4 @@
+using Application.Abstraction.Services;
 using Application.Dtos.ActorDto;
 using Application.Dtos.Director;
 using Application.Dtos.MovieDto;
@@ -14,11 +15,13 @@ public class GetAllDirectorQueriesHandler: IRequestHandler<GetAllDirectorQueries
 {
     private readonly IDirectorReadRepository _directorReadRepository;
     private IMapper _mapper;
+    private readonly ILoggerService _loggerService;
 
-    public GetAllDirectorQueriesHandler(IDirectorReadRepository directorReadRepository, IMapper mapper)
+    public GetAllDirectorQueriesHandler(IDirectorReadRepository directorReadRepository, IMapper mapper, ILoggerService loggerService)
     {
         _directorReadRepository = directorReadRepository;
         _mapper = mapper;
+        _loggerService = loggerService;
     }
 
     public async Task<GetAllDirectorQueriesResponse> Handle(GetAllDirectorQueriesRequest request, CancellationToken cancellationToken)
@@ -43,6 +46,7 @@ public class GetAllDirectorQueriesHandler: IRequestHandler<GetAllDirectorQueries
                 }).ToList()
             }).ToList()
         };
+        _loggerService.Write("tum directorler getirildii.");
         return _mapper.Map<GetAllDirectorQueriesResponse>(response);
     }
 }

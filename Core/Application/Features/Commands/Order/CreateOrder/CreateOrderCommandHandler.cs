@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Abstraction.Services;
 using Application.Repositories.Movie;
 using Application.Repositories.Order;
 using MediatR;
@@ -13,12 +14,14 @@ namespace Application.Features.Commands.Order.CreateOrder
         private readonly IMovieReadRepository _movieReadRepository;
         private readonly IOrderWriteRepository _orderWriteRepository;
         private readonly UserManager<Domain.Entities.Identity.AppUser> _userManager;
+        private readonly ILoggerService _logger;
 
-        public CreateOrderCommandHandler(IMovieReadRepository movieReadRepository, IOrderWriteRepository orderWriteRepository, UserManager<Domain.Entities.Identity.AppUser> userManager)
+        public CreateOrderCommandHandler(IMovieReadRepository movieReadRepository, IOrderWriteRepository orderWriteRepository, UserManager<Domain.Entities.Identity.AppUser> userManager, ILoggerService logger)
         {
             _movieReadRepository = movieReadRepository;
             _orderWriteRepository = orderWriteRepository;
             _userManager = userManager;
+            _logger = logger;
         }
 
         public async Task<CreateOrderCommandResponse> Handle(CreateOrderCommandRequest request, CancellationToken cancellationToken)
@@ -52,7 +55,7 @@ namespace Application.Features.Commands.Order.CreateOrder
 
             await _orderWriteRepository.AddAsync(order);
             await _orderWriteRepository.SaveAsync();
-
+            _logger.Write($"{request.CustomerId}'sine sahip usera, {request.MovieId}'sine sahip movie için order eklendi.");
             return new CreateOrderCommandResponse
             {
                 IsSuccess = true

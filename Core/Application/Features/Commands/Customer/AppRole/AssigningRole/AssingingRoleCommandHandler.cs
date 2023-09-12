@@ -1,3 +1,4 @@
+using Application.Abstraction.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,12 +8,14 @@ public class AssingingRoleCommandHandler : IRequestHandler<AssingingRoleCommandR
 {
     private readonly UserManager<Domain.Entities.Identity.AppUser> _userManager;
     private readonly RoleManager<Domain.Entities.Identity.AppRole> _roleManager;
+    private readonly ILoggerService _logger;
 
     public AssingingRoleCommandHandler(UserManager<Domain.Entities.Identity.AppUser> userManager,
-        RoleManager<Domain.Entities.Identity.AppRole> roleManager)
+        RoleManager<Domain.Entities.Identity.AppRole> roleManager, ILoggerService logger)
     {
         _userManager = userManager;
         _roleManager = roleManager;
+        _logger = logger;
     }
 
     public async Task<AssingingRoleCommandResponse> Handle(AssingingRoleCommandRequest request,
@@ -29,6 +32,7 @@ public class AssingingRoleCommandHandler : IRequestHandler<AssingingRoleCommandR
                     var result = await _userManager.AddToRoleAsync(user, role.Name);
                     if (result.Succeeded)
                     {
+                        _logger.Write($"{request.RoleId}'sine sahip rol, {request.UserId}'sine sahip usera atandi");
                         return new()
                         {
                             IsSuccess = true

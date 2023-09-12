@@ -3,9 +3,11 @@ using System.Text;
 using Application;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.

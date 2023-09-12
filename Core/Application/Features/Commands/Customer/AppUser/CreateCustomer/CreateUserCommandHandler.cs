@@ -7,10 +7,11 @@ namespace Application.Features.Commands.AppUser.CreateCustomer;
 public class CreateUserCommandHandler: IRequestHandler<CreateUserCommandRequest,CreateUserCommandResponse>
 {
     private readonly IUserService _userService;
-
-    public CreateUserCommandHandler(IUserService userService)
+    private readonly ILoggerService _logger;
+    public CreateUserCommandHandler(IUserService userService, ILoggerService logger)
     {
         _userService = userService;
+        _logger = logger;
     }
 
     public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
@@ -22,6 +23,7 @@ public class CreateUserCommandHandler: IRequestHandler<CreateUserCommandRequest,
             Password = request.Password,
             FavoriteFilmType = request.FavoriteFilmType
         });
+        _logger.Write($"{request.Username} adli customer eklendi");
         return new CreateUserCommandResponse()
         {
             IsSuccess = user.IsSuccess

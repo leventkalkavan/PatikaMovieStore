@@ -1,3 +1,4 @@
+using Application.Abstraction.Services;
 using Application.Dtos.OrderDto;
 using Application.Repositories.Order;
 using AutoMapper;
@@ -10,11 +11,13 @@ public class GetAllOrderQueryHandler: IRequestHandler<GetAllOrderQueryRequest,Ge
 {
     private readonly IOrderReadRepository _orderReadRepository;
     private IMapper _mapper;
+    private readonly ILoggerService _loggerService;
 
-    public GetAllOrderQueryHandler(IOrderReadRepository orderReadRepository, IMapper mapper)
+    public GetAllOrderQueryHandler(IOrderReadRepository orderReadRepository, IMapper mapper, ILoggerService loggerService)
     {
         _orderReadRepository = orderReadRepository;
         _mapper = mapper;
+        _loggerService = loggerService;
     }
 
     public async Task<GetAllOrderQueryResponse> Handle(GetAllOrderQueryRequest request, CancellationToken cancellationToken)
@@ -35,7 +38,7 @@ public class GetAllOrderQueryHandler: IRequestHandler<GetAllOrderQueryRequest,Ge
         {
             Orders = orderDtos
         };
-
+        _loggerService.Write("tum orderlar getirildii.");
         return _mapper.Map<GetAllOrderQueryResponse>(response);
     }
 }

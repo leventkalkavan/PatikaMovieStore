@@ -2,6 +2,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Application.Abstraction.Services;
     using Application.Dtos.ActorDto;
     using Application.Dtos.MovieDto;
     using Application.Repositories.Actor;
@@ -16,11 +17,13 @@
         {
             private readonly IMovieReadRepository _movieReadRepository;
             private IMapper _mapper;
+            private readonly ILoggerService _loggerService;
 
-            public GetAllMovieQueryHandler(IMovieReadRepository movieReadRepository, IMapper mapper)
+            public GetAllMovieQueryHandler(IMovieReadRepository movieReadRepository, IMapper mapper, ILoggerService loggerService)
             {
                 _movieReadRepository = movieReadRepository;
                 _mapper = mapper;
+                _loggerService = loggerService;
             }
 
             public async Task<GetAllMovieQueryResponse> Handle(GetAllMovieQueryRequest request, CancellationToken cancellationToken)
@@ -42,7 +45,7 @@
                 {
                     Movies = movieDtos
                 };
-
+                _loggerService.Write("tum movieler getirildii.");
                 return _mapper.Map<GetAllMovieQueryResponse>(response);
             }
 

@@ -46,6 +46,8 @@ public static class ServiceRegistation
         services.AddScoped<IUserService, UserService>();
         
         services.AddScoped<IAuthService, AuthService>();
-        
+
+        services.AddTransient<ILoggerService, DbLogger>();
+
     }
 }
